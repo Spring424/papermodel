@@ -25,7 +25,6 @@ class AttackClient(nn.Module):
         self.m_item = m_item
         self.dim = dim
         self._user_emb = nn.Embedding(1, self.dim)
-        self.DNA_SIZE = self.dim
         self.pre_item_emb = None
         self.flag = 1
         self.id=random.randint(0, 20)
@@ -123,7 +122,7 @@ class AttackClient(nn.Module):
         linear_layers_grad = [[w.grad, b.grad] for (w, b) in linear_layers]
 
 
-        return 1, self._target_, poison_grad, linear_layers_grad, None
+        return self._target_, poison_grad, linear_layers_grad, None
 
 
     def eval_(self, _items_emb, _linear_layers):
