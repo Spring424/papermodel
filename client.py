@@ -63,7 +63,7 @@ class FedRecClient(nn.Module):
         items_emb_grad = items_emb.grad
         linear_layers_grad = [[w.grad, b.grad] for (w, b) in linear_layers]
 
-        return 2, self._train_items, items_emb_grad, linear_layers_grad, loss.cpu().item()
+        return self._train_items, items_emb_grad, linear_layers_grad, loss.cpu().item()
 
     def eval_(self, items_emb, linear_layers):
         rating = self.forward(items_emb, linear_layers)
