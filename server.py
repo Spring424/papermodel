@@ -8,13 +8,13 @@ import time
 from math import *
 
 class FedRecServer(nn.Module):
-    def __init__(self, m_item, dim, layers): # 初始化模型参数
+    def __init__(self, m_item, dim, layers): 
         super().__init__()
         self.m_item = m_item
         self.dim = dim
         self.layers = layers
 
-        self.items_emb = nn.Embedding(m_item, dim) # 项目的嵌入
+        self.items_emb = nn.Embedding(m_item, dim)
         nn.init.normal_(self.items_emb.weight, std=0.01)
 
         layers_dim = [2 * dim] + layers + [1]
@@ -33,7 +33,7 @@ class FedRecServer(nn.Module):
         batch_linear_layers_grad = [[torch.zeros_like(w), torch.zeros_like(b)] for (w, b) in linear_layers]
         for idx in batch_clients_idx:
             client = clients[idx]
-            is_target, items, items_emb_grad, linear_layers_grad, loss = client.train_(items_emb, linear_layers)
+            items, items_emb_grad, linear_layers_grad, loss = client.train_(items_emb, linear_layers)
 
             with torch.no_grad():
                 batch_items_emb_grad[items] += items_emb_grad
